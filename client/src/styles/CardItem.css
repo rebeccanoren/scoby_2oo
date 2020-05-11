@@ -60,6 +60,7 @@
 .CardItem .description h2 {
   margin: 10px 0;
 }
+
 .CardItem .description h2 {
   margin: 5px 0;
   font-weight: 400;
@@ -86,6 +87,6 @@
   background-color: #5663ff;
 }
 
-.CardItem > h3 {
+.CardItem>h3 {
   text-align: center;
 }

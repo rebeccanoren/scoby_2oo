@@ -15,7 +15,6 @@ class Profile extends Component {
     apiHandler
       .getItems(this.props.authContext.user._id)
       .then((apiResponse) => {
-        // console.log(apiResponse);
         this.setState({ itemsData: apiResponse });
       })
       .catch((apiError) => {
@@ -23,10 +22,28 @@ class Profile extends Component {
       });
   }
 
+  handleDelete = (id) => {
+    apiHandler.deleteItem(id)
+      .then((apiResponse) => {
+        const newItemsData = this.state.itemsData.filter(
+          (item, index) => {
+            return item._id !== id;
+          }
+        );
+        this.setState({ itemsData: newItemsData })
+      })
+      .catch((apiError) => {
+        console.log(apiError);
+      });
+  }
+
+  handleEdit() {
+  }
+
   render() {
     const { authContext } = this.props;
     const { user } = authContext;
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div style={{ padding: "100px", fontSize: "1.25rem" }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>
@@ -89,7 +106,7 @@ class Profile extends Component {
             </div>
           </div>
 
-          <UserItems item={this.state.itemsData} />
+          <UserItems item={this.state.itemsData} deleteCb={this.handleDelete} editCb={this.handleEdit} />
 
         </section>
       </div>
