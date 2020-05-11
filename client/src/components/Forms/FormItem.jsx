@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import LocationAutoComplete from '../LocationAutoComplete';
 import '../../styles/form.css';
+import apiHandler from '../../api/apiHandler';
 
 class ItemForm extends Component {
-	state = { quantity: 1 };
+	state = { quantity: 1, contact: 'email' };
 
 	handleChange = (event) => {
 		if (event.target.name === 'location') return;
-		const value = event.target.type === 'file' ? event.target.files[0] : event.target.value;
+		let value;
+		if (event.target.type === 'file') {
+			value = event.target.files[0];
+		} else if (event.target.type === 'checkbox') {
+			value = event.target.checked;
+		} else {
+			value = event.target.value;
+		}
 		this.setState({ [event.target.name]: value });
 	};
 
@@ -44,6 +52,16 @@ class ItemForm extends Component {
 			this.setState({ errors: errors.messages });
 		} else {
 			console.log('No Error ! Proceed');
+			const data = {
+				name: this.state.name,
+				category: this.state.category,
+				quantity: this.state.quantity,
+				address: this.state.location,
+				description: this.state.description,
+				image: this.state.image,
+				contact: this.state.contact,
+			};
+			apiHandler.createItem(data);
 		}
 		// In order to send back the data to the client, since there is an input type file you have to send the
 		// data as formdata.
@@ -57,7 +75,7 @@ class ItemForm extends Component {
 		// This handle is passed as a callback to the autocomplete component.
 		// Take a look at the data and see what you can get from it.
 		// Look at the item model to know what you should retrieve and set as state.
-		console.log(place);
+		// console.log(place);
 		const location = {
 			type: 'Point',
 			coordinates: place.center,
@@ -134,15 +152,19 @@ class ItemForm extends Component {
 					<h2>Contact information</h2>
 
 					<div className="form-group">
-						<label className="label" htmlFor="contact">
-							How do you want to be reached?
-						</label>
+						How do you want to be reached?
 						<div>
-							<input type="radio" />
-							user email
+							<input type="radio" id="contactMail" name="contact" value="email" checked />{' '}
+							<label className="label radio" htmlFor="contactMail">
+								user email
+							</label>
 						</div>
-						<input type="radio" />
-						contact phone number
+						<div>
+							<input type="radio" id="contactPhone" name="contact" value="phone" />{' '}
+							<label className="label radio" htmlFor="contactPhone">
+								contact phone number
+							</label>
+						</div>
 					</div>
 
 					<p className="message">
