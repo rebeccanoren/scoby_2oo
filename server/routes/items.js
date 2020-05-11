@@ -3,9 +3,12 @@ var router = express.Router();
 const Item = require('../models/Item');
 const upload = require('../config/cloudinaryConfig');
 
+/**
+ * GET ITEMS (ALL & BY USER)
+ */
 router.get('/', (req, res, next) => {
 	const user = req.query.user ? { id_user: req.query.user } : null;
-	Item.find(user)
+	Item.find()
 		.then((dbResult) => res.status(200).json(dbResult))
 		.catch((dbError) => res.status(500).json(dbError));
 });
