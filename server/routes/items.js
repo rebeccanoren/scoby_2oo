@@ -5,18 +5,27 @@ const upload = require("../config/cloudinaryConfig");
 
 
 /* ADD ITEM */
-router.post("/add-item", upload.single("picture"), (req, res, next) => {
-  const id_user = req.session.currentUser._id;
+router.post("/new", upload.single("image"), (req, res, next) => {
+
+  let data = {
+    id_user: req.session.currentUser._id,
+    name: req.body.name,
+    category: req.body.category,
+    quantity: req.body.quantity,
+    address: req.body.address,
+    description: req.body.description,
+    contact: req.body.contact,
+    location: JSON.parse(req.body.location)
+  }
 
   if (req.file) {
-    const picture = req.file.secure_url;
-    req.body = {
-      ...req.body,
-      picture
-    }
+    let image = req.file.secure_url;
+    data.image = image
   }
-  Item.create(...req.body,
-      id_user, )
+
+  Item.create(
+      data
+    )
     .then((dbResult) => {
       res.status(201).json(dbResult);
     })
