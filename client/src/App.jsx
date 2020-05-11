@@ -11,7 +11,6 @@ import FormItem from './components/Forms/FormItem';
 function App() {
 	return (
 		<div className="App">
-			<h1>My changes</h1>
 			<NavMain />
 			<Switch>
 				<Route exact path="/" component={Home} />
