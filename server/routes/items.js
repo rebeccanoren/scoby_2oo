@@ -60,4 +60,13 @@ router.patch('/:id', upload.single('image'), (req, res, next) => {
 		.catch((dbError) => res.status(500).json(dbError));
 });
 
+/**
+ * DELETEITEM
+ */
+router.delete('/:id', (req, res, next) => {
+	Item.findByIdAndDelete(req.params.id)
+		.then((dbResult) => res.status(200).json(dbResult))
+		.catch((dbError) => res.status(500).json(dbError));
+});
+
 module.exports = router;
