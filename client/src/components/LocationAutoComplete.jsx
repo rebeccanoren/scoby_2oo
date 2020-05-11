@@ -73,6 +73,7 @@ class LocationAutoComplete extends Component {
 					name="location"
 					value={this.state.search}
 					onChange={this.handleSearchChange}
+					autoComplete="off"
 					placeholder="Enter an address"
 				/>
 				<ul className="LocationAutoComplete-results">
