@@ -7,7 +7,9 @@ const upload = require('../config/cloudinaryConfig');
  * GET ITEMS (ALL & BY USER)
  */
 router.get('/', (req, res, next) => {
-	const user = req.query.user ? { id_user: req.query.user } : null;
+	const user = req.query.user ? {
+		id_user: req.query.user
+	} : null;
 	Item.find(user)
 		.then((dbResult) => res.status(200).json(dbResult))
 		.catch((dbError) => res.status(500).json(dbError));
@@ -49,10 +51,14 @@ router.patch('/:id', upload.single('image'), (req, res, next) => {
 	if (req.file) {
 		data.image = req.file.secure_url;
 	}
-	Item.findByIdAndUpdate(data, req.params.id, { new: true })
+	Item.findByIdAndUpdate(req.params.id, data, {
+			new: true
+		})
 		.then((dbResult) => {
 			if (dbResult === null) {
-				res.status(404).json({ message: 'Item not found' });
+				res.status(404).json({
+					message: 'Item not found'
+				});
 			} else {
 				res.status(200).json(dbResult);
 			}
