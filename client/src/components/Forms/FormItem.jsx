@@ -52,7 +52,7 @@ class ItemForm extends Component {
 		if (errors.is) {
 			this.setState({ errors: errors.messages });
 		} else {
-			const data = FormData();
+			const data = new FormData();
 			data.append('name', this.state.name);
 			data.append('category', this.state.category);
 			data.append('quantity', this.state.quantity);
