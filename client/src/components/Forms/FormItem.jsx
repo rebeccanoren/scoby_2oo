@@ -52,15 +52,14 @@ class ItemForm extends Component {
 		if (errors.is) {
 			this.setState({ errors: errors.messages });
 		} else {
-			const data = {
-				name: this.state.name,
-				category: this.state.category,
-				quantity: this.state.quantity,
-				address: this.state.location,
-				description: this.state.description,
-				image: this.state.image,
-				contact: this.state.contact,
-			};
+			const data = FormData();
+			data.append('name', this.state.name);
+			data.append('category', this.state.category);
+			data.append('quantity', this.state.quantity);
+			data.append('address', this.state.location);
+			data.append('description', this.state.description);
+			data.append('image', this.state.image);
+			data.append('contact', this.state.contact);
 			apiHandler.createItem(data);
 		}
 		// In order to send back the data to the client, since there is an input type file you have to send the
