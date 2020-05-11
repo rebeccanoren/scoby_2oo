@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LocationAutoComplete from '../LocationAutoComplete';
 import '../../styles/form.css';
 import apiHandler from '../../api/apiHandler';
+import ErrorHandler from './ErrorHandler';
 
 class ItemForm extends Component {
 	state = { quantity: 1, contact: 'email' };
@@ -25,27 +26,27 @@ class ItemForm extends Component {
 		let errors = { is: false, messages: [] };
 		if (!this.state.name || this.state.name === '') {
 			errors.is = true;
-			errors.messages.push('Please enter your name');
+			errors.messages.push('enter your name');
 		}
 
 		if (!this.state.category) {
 			errors.is = true;
-			errors.messages.push('Please select a category...');
+			errors.messages.push('select a category');
 		}
 
 		if (!this.state.quantity || this.state.quantity < 1) {
 			errors.is = true;
-			errors.messages.push('Please put at least one item, no ?');
+			errors.messages.push('put at least one item');
 		}
 
 		if (!this.state.location || typeof this.state.location !== 'object') {
 			errors.is = true;
-			errors.messages.push('Please confirm the address by clicking on the completion');
+			errors.messages.push('confirm the address by clicking on the completion');
 		}
 
 		if (!this.state.description || this.state.description === '') {
 			errors.is = true;
-			errors.messages.push('Please put a little description !');
+			errors.messages.push('put a little description !');
 		}
 
 		if (errors.is) {
@@ -89,7 +90,7 @@ class ItemForm extends Component {
 				<form className="form" onChange={this.handleChange} onSubmit={this.handleSubmit}>
 					<h2 className="title">Add Item</h2>
 
-					<div>{this.state.errors && this.state.errors.map((message, index) => <p key={index}>{message}</p>)}</div>
+					{this.state.errors && <ErrorHandler messages={this.state.errors} />}
 
 					<div className="form-group">
 						<label className="label" htmlFor="name">
