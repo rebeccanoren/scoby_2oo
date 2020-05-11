@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 /**
  * EDIT ITEM
  */
-router.patch('/:id', upload.single('image'), (req, res, next) => {
+router.patch('/:id', (req, res, next) => {
 	let data = req.body;
 	if (req.file) {
 		data.image = req.file.secure_url;
