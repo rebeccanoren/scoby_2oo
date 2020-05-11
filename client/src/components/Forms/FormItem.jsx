@@ -51,7 +51,6 @@ class ItemForm extends Component {
 		if (errors.is) {
 			this.setState({ errors: errors.messages });
 		} else {
-			console.log('No Error ! Proceed');
 			const data = {
 				name: this.state.name,
 				category: this.state.category,
@@ -85,7 +84,6 @@ class ItemForm extends Component {
 	};
 
 	render() {
-		console.log(this.state);
 		return (
 			<div className="ItemForm-container">
 				<form className="form" onChange={this.handleChange} onSubmit={this.handleSubmit}>
@@ -154,7 +152,7 @@ class ItemForm extends Component {
 					<div className="form-group">
 						How do you want to be reached?
 						<div>
-							<input type="radio" id="contactMail" name="contact" value="email" checked />{' '}
+							<input type="radio" id="contactMail" name="contact" value="email" defaultChecked />{' '}
 							<label className="label radio" htmlFor="contactMail">
 								user email
 							</label>
