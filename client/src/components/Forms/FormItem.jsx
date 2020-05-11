@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LocationAutoComplete from '../LocationAutoComplete';
 import '../../styles/form.css';
 import apiHandler from '../../api/apiHandler';
-import ErrorHandler from './ErrorHandler';
+import ErrorMessageHandler from './ErrorMessageHandler';
 
 class ItemForm extends Component {
 	state = { quantity: 1, contact: 'email' };
@@ -90,7 +90,7 @@ class ItemForm extends Component {
 				<form className="form" onChange={this.handleChange} onSubmit={this.handleSubmit}>
 					<h2 className="title">Add Item</h2>
 
-					{this.state.errors && <ErrorHandler messages={this.state.errors} />}
+					{this.state.errors && <ErrorMessageHandler messages={this.state.errors} />}
 
 					<div className="form-group">
 						<label className="label" htmlFor="name">
