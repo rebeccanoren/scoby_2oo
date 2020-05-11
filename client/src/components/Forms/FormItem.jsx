@@ -7,13 +7,44 @@ class ItemForm extends Component {
 
 	handleChange = (event) => {
 		if (event.target.name === 'location') return;
-		const value = event.target.type === 'file' ? event.target.file[0] : event.target.value;
+		const value = event.target.type === 'file' ? event.target.files[0] : event.target.value;
 		this.setState({ [event.target.name]: value });
 	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
 
+		let errors = { is: false, messages: [] };
+		if (!this.state.name || this.state.name === '') {
+			errors.is = true;
+			errors.messages.push('Please enter your name');
+		}
+
+		if (!this.state.category) {
+			errors.is = true;
+			errors.messages.push('Please select a category...');
+		}
+
+		if (!this.state.quantity || this.state.quantity < 1) {
+			errors.is = true;
+			errors.messages.push('Please put at least one item, no ?');
+		}
+
+		if (!this.state.location || typeof this.state.location !== 'object') {
+			errors.is = true;
+			errors.messages.push('Please confirm the address by clicking on the completion');
+		}
+
+		if (!this.state.description || this.state.description === '') {
+			errors.is = true;
+			errors.messages.push('Please put a little description !');
+		}
+
+		if (errors.is) {
+			this.setState({ errors: errors.messages });
+		} else {
+			console.log('No Error ! Proceed');
+		}
 		// In order to send back the data to the client, since there is an input type file you have to send the
 		// data as formdata.
 		// The object that you'll be sending will maybe be a nested object, in order to handle nested objects in our form data
@@ -33,14 +64,16 @@ class ItemForm extends Component {
 			formattedAddress: place.place_name,
 		};
 		this.setState({ location: location });
-		console.log(this.state);
 	};
 
 	render() {
+		console.log(this.state);
 		return (
 			<div className="ItemForm-container">
-				<form className="form" onChange={this.handleChange}>
+				<form className="form" onChange={this.handleChange} onSubmit={this.handleSubmit}>
 					<h2 className="title">Add Item</h2>
+
+					<div>{this.state.errors && this.state.errors.map((message, index) => <p key={index}>{message}</p>)}</div>
 
 					<div className="form-group">
 						<label className="label" htmlFor="name">
@@ -69,7 +102,7 @@ class ItemForm extends Component {
 						<label className="label" htmlFor="quantity">
 							Quantity
 						</label>
-						<input className="input" name="quantity" id="quantity" type="number" />
+						<input className="input" name="quantity" id="quantity" type="number" defaultValue={this.state.quantity} />
 					</div>
 
 					<div className="form-group">
