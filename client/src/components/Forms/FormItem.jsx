@@ -56,7 +56,9 @@ class ItemForm extends Component {
 			data.append('name', this.state.name);
 			data.append('category', this.state.category);
 			data.append('quantity', this.state.quantity);
-			data.append('address', this.state.location);
+			data.append('location.type', this.state.location.type);
+			data.append('location.coordinates', this.state.location.coordinates);
+			data.append('location.formattedAddress', this.state.location.formattedAddress);
 			data.append('description', this.state.description);
 			data.append('image', this.state.image);
 			data.append('contact', this.state.contact);
