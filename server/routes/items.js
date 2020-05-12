@@ -7,7 +7,6 @@ const upload = require('../config/cloudinaryConfig');
  * GET ITEMS (ALL & BY USER)
  */
 router.get('/', (req, res, next) => {
-	// console.log(Object.keys(req.query));
 	let search = {};
 	for (let [key, value] of Object.entries(req.query)) {
 		search[key] = value;
