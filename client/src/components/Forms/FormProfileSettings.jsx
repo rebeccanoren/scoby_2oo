@@ -5,16 +5,33 @@ import apiHandler from "../../api/apiHandler";
 import "../../styles/form.css";
 
 class FormProfileSettings extends Component {
-  state = {
-    user: [],
-    tempUrl: ""
-  };
-
-  componentDidMount() {
-    apiHandler.getProfileSettings(this.props.authContext.user._id).then((apiResponse) => {
-      this.setState({ user: apiResponse })
-    }).catch()
+  static getDerivedStateFromProps(props, state) {
+    if (props.authContext.user !== state.user) {
+      return {
+        user: props.authContext.user,
+        tempUrl: "",
+        firstName: props.authContext.user.firstName,
+        lastName: props.authContext.user.lastName,
+        city: props.authContext.user.city,
+        phoneNumber: props.authContext.user.phoneNumber,
+      }
+    } else return null
   }
+
+  state = {
+    user: null,
+    tempUrl: "",
+    firstName: "",
+    lastName: "",
+    city: "",
+    phoneNumber: ""
+  }
+
+  // componentDidMount() {
+  //   apiHandler.getProfileSettings(this.props.authContext.user._id).then((apiResponse) => {
+  //     this.setState({ user: apiResponse })
+  //   }).catch()
+  // }
 
   handleChange = (event) => {
     const data = { [event.target.name]: event.target.value };
@@ -31,23 +48,23 @@ class FormProfileSettings extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     let errors = { is: false, messages: [] };
-
-    if (this.state.firstName === '') {
+    console.log(this.state)
+    if (this.state.firstName === "") {
       errors.is = true;
       errors.messages.push('enter first name');
     }
 
-    if (this.state.lastName === '') {
+    if (this.state.lastName === "") {
       errors.is = true;
       errors.messages.push('enter last name');
     }
 
-    if (this.state.city === '') {
+    if (this.state.city === "") {
       errors.is = true;
       errors.messages.push('enter city');
     }
 
-    if (this.state.phoneNumber === '') {
+    if (this.state.phoneNumber === "") {
       errors.is = true;
       errors.messages.push('enter phone number');
     }
@@ -58,20 +75,32 @@ class FormProfileSettings extends Component {
       return;
     } else {
       const data = new FormData();
-      data.append("firstName", this.state.firstName)
-      data.append("lastName", this.state.lastName)
-      data.append("city", this.state.city)
-      data.append("phoneNumber", this.state.phoneNumber)
 
-      if (this.state.profileImg !== '') {
+      if (this.state.firstName) {
+        data.append("firstName", this.state.firstName)
+      }
+
+      if (this.state.lastName) {
+        data.append("lastName", this.state.lastName)
+      }
+
+      if (this.state.city) {
+        data.append("city", this.state.city)
+      }
+
+      if (this.state.phoneNumber) {
         data.append("phoneNumber", this.state.phoneNumber)
       }
 
-      console.log(data)
+      if (this.state.profileImg) {
+        data.append("profileImg", this.state.profileImg)
+      }
+
       apiHandler.updateProfileSettings(this.props.authContext.user._id, data)
         .then((data) => {
-          console.log(data)
-          // this.props.history.push("/");
+          // console.log(data)
+          this.props.authContext.setUser(data);
+          this.props.history.push("/");
         })
         .catch((error) => {
           console.log(error);
@@ -80,12 +109,15 @@ class FormProfileSettings extends Component {
   };
 
   render() {
+    // if (this.state.user === null) {
+    //   return <p>Loading..</p>
+    // }
+    console.log(this.state)
     let imgSrc = null
-    if (this.state.tempUrl === '') imgSrc = this.state.user.profileImg
+    if (this.state.tempUrl === '') imgSrc = this.props.authContext.user.profileImg
     else imgSrc = this.state.tempUrl
 
     return (
-
       <section className="form-section">
         <header className="header">
           <h1>
@@ -100,7 +132,7 @@ class FormProfileSettings extends Component {
           onSubmit={this.handleSubmit}
         >
           <div className="user-image round-image">
-            <img src={imgSrc} alt={this.state.user.firstName} /></div>
+            <img src={imgSrc} alt={this.props.authContext.user.firstName} /></div>
           <div className="form-group">
             <label className="custom-upload label" htmlFor="image">
               Upload new image
@@ -118,9 +150,10 @@ class FormProfileSettings extends Component {
               id="firstName"
               type="text"
               name="firstName"
-              defaultValue={this.state.user.firstName}
+              defaultValue={this.props.authContext.user.firstName}
               placeholder="Enter first name"
             />
+
           </div>
 
           <div className="form-group">
@@ -132,7 +165,7 @@ class FormProfileSettings extends Component {
               id="lastName"
               type="text"
               name="lastName"
-              defaultValue={this.state.user.lastName}
+              defaultValue={this.props.authContext.user.lastName}
               placeholder="Enter last name"
             />
           </div>
@@ -146,7 +179,7 @@ class FormProfileSettings extends Component {
               id="city"
               type="text"
               name="city"
-              defaultValue={this.state.user.city}
+              defaultValue={this.props.authContext.user.city}
               placeholder="Enter city"
             />
           </div>
@@ -160,7 +193,7 @@ class FormProfileSettings extends Component {
               id="phoneNumber"
               type="text"
               name="phoneNumber"
-              defaultValue={this.state.user.phoneNumber}
+              defaultValue={this.props.authContext.user.phoneNumber}
               placeholder="Enter phone number"
             />
           </div>
@@ -169,7 +202,7 @@ class FormProfileSettings extends Component {
             <label className="label" htmlFor="email">
               Email
             </label>
-            <input className="input" id="email" type="email" name="email" defaultValue={this.state.user.email} disabled={true} />
+            <input className="input" id="email" type="email" name="email" defaultValue={this.props.authContext.user.email} disabled={true} />
           </div>
 
           <div className="form-group">
