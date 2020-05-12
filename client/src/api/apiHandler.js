@@ -44,9 +44,9 @@ export default {
 			.catch(errorHandler);
 	},
 
-	profileSettings(userId) {
+	getProfileSettings(userId) {
 		return service
-			.get(`/api/user?user=${userId}`)
+			.get(`/api/user/${userId}`)
 			.then((res) => res.data)
 			.catch(errorHandler);
 	},

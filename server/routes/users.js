@@ -4,7 +4,13 @@ const User = require('../models/User');
 
 router.get('/', (req, res, next) => {
 	const user = req.query.user ? { _id: req.query.user } : null;
-	Item.find(user)
+	User.find(user)
+		.then((dbResult) => res.status(200).json(dbResult))
+		.catch((dbError) => res.status(500).json(dbError));
+});
+
+router.get('/:id', (req, res, next) => {
+	User.findById(req.params.id)
 		.then((dbResult) => res.status(200).json(dbResult))
 		.catch((dbError) => res.status(500).json(dbError));
 });

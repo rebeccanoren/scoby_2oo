@@ -9,10 +9,10 @@ const upload = require('../config/cloudinaryConfig');
 router.get('/', (req, res, next) => {
 	// console.log(Object.keys(req.query));
 	let search = {};
-	console.log(req.query);
-	for (let elem in req.query) {
-		console.log(elem);
+	for (let [key, value] of Object.entries(req.query)) {
+		search[key] = value;
 	}
+	console.log(search);
 
 	////// SOMETHING TO DO THERE
 	return;
