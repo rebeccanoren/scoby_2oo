@@ -21,6 +21,24 @@
 	box-shadow: rgba(16, 35, 82, 0.02) 0 7px 50px 20px;
 }
 
+.overlay {
+	background: rgba(0, 0, 0, 0.7);
+	box-shadow: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.overlay form {
+	z-index: 1000;
+}
+
 .form .message {
 	display: flex;
 	flex-direction: row;
