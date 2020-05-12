@@ -12,16 +12,7 @@ router.get('/', (req, res, next) => {
 	for (let [key, value] of Object.entries(req.query)) {
 		search[key] = value;
 	}
-	console.log(search);
-
-	////// SOMETHING TO DO THERE
-	return;
-	const data = req.query.user
-		? {
-				id_user: req.query.user,
-		  }
-		: null;
-	Item.find(user)
+	Item.find(search)
 		.then((dbResult) => res.status(200).json(dbResult))
 		.catch((dbError) => res.status(500).json(dbError));
 });
