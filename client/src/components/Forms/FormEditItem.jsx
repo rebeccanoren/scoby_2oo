@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import LocationAutoComplete from '../LocationAutoComplete';
+// import LocationAutoComplete from '../LocationAutoComplete';
+// import ErrorMessageHandler from './ErrorMessageHandler';
 import '../../styles/form.css';
 import apiHandler from '../../api/apiHandler';
-import ErrorMessageHandler from './ErrorMessageHandler';
 
 class FormEditItem extends Component {
+	state = { item: null };
+	componentDidMount() {
+		apiHandler
+			.getItems(`_id=${this.props._id}`)
+			.then((APIResult) => console.log(APIResult))
+			.close((APIError) => console.log(APIError));
+	}
+
 	render() {
 		return (
 			<form className="form overlay">

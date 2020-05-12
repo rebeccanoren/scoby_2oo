@@ -17,7 +17,7 @@ class Profile extends Component {
 
 	componentDidMount() {
 		apiHandler
-			.getItems(this.props.authContext.user._id)
+			.getItems(`user=${this.props.authContext.user._id}`)
 			.then((apiResponse) => {
 				this.setState({ itemsData: apiResponse });
 			})
