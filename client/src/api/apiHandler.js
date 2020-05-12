@@ -51,9 +51,9 @@ export default {
 			.catch(errorHandler);
 	},
 
-	updateProfileSettings(id) {
+	updateProfileSettings(id, userInfo) {
 		return service
-			.patch(`/api/users/${id}`)
+			.patch(`/api/users/${id}`, userInfo)
 			.then((res) => res.data)
 			.catch(errorHandler);
 	},
