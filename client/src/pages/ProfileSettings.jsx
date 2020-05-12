@@ -1,19 +1,25 @@
 import React, { Component } from 'react'
 import { withUser } from "../components/Auth/withUser";
 import apiHandler from "../api/apiHandler";
+import FormProfileSettings from '../components/Forms/FormProfileSettings';
 
 class ProfileSettings extends Component {
+  state = {
+    user: [],
+  };
+
   componentDidMount() {
-    apiHandler.profileSettings(this.props.authContext.user._id).then((apiResponse) => {
+    apiHandler.getProfileSettings(this.props.authContext.user._id).then((apiResponse) => {
+      console.log(apiResponse)
       this.setState({ user: apiResponse })
     }).catch()
   }
 
   render() {
-    console.log(this.props)
+
     return (
       <div>
-        {/* {this.state.user.name} */}
+        <FormProfileSettings user={this.state.user} />
       </div>
     )
   }

@@ -2,18 +2,22 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-router.get('/', (req, res, next) => {
-	const user = req.query.user ? { _id: req.query.user } : null;
-	User.find(user)
-		.then((dbResult) => res.status(200).json(dbResult))
-		.catch((dbError) => res.status(500).json(dbError));
-});
 
 router.get('/:id', (req, res, next) => {
 	User.findById(req.params.id)
 		.then((dbResult) => res.status(200).json(dbResult))
 		.catch((dbError) => res.status(500).json(dbError));
 });
+
+router.get('/', (req, res, next) => {
+	const user = req.query.user ? {
+		_id: req.query.user
+	} : null;
+	User.find(user)
+		.then((dbResult) => res.status(200).json(dbResult))
+		.catch((dbError) => res.status(500).json(dbError));
+});
+
 
 /**
  * EDIT ITEM
@@ -24,8 +28,8 @@ router.patch('/:id', (req, res, next) => {
 		data.image = req.file.secure_url;
 	}
 	User.findByIdAndUpdate(req.params.id, data, {
-		new: true,
-	})
+			new: true,
+		})
 		.then((dbResult) => {
 			if (dbResult === null) {
 				res.status(404).json({
