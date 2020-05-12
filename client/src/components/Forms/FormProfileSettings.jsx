@@ -5,32 +5,30 @@ import apiHandler from "../../api/apiHandler";
 import "../../styles/form.css";
 
 class FormProfileSettings extends Component {
-  state = {};
+  state = {
+    user: []
+  };
+
+  componentDidMount() {
+    apiHandler.getProfileSettings(this.props.authContext.user._id).then((apiResponse) => {
+      this.setState({ user: apiResponse })
+    }).catch()
+  }
 
   handleChange = (event) => {
     const value =
       event.target.type === "file" ? event.target.files[0] : event.target.value;
-
     const key = event.target.name;
-
     this.setState({ [key]: value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { authContext } = this.props;
-    // authContext
-    //   .signup(this.state)
-    //   .then(() => {
-    //     this.props.history.push("/profile");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    const { userInfo } = this.state;
     apiHandler
-      .signup(this.state)
+      .updateProfileSettings(this.props.authContext.user._id)
       .then((data) => {
-        authContext.setUser(data);
+        userInfo.setUser(data);
         this.props.history.push("/");
       })
       .catch((error) => {
@@ -40,13 +38,11 @@ class FormProfileSettings extends Component {
 
   render() {
     return (
+
       <section className="form-section">
         <header className="header">
           <h1>
-            Hello
-            <span role="img" aria-label="hand">
-              👋
-            </span>
+            Edit your profile
           </h1>
         </header>
 
@@ -56,7 +52,15 @@ class FormProfileSettings extends Component {
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
         >
-          <h2 className="title">Create account</h2>
+          <div className="user-image round-image">
+            <img src={this.state.user.profileImg} alt={this.state.user.firstName} /></div>
+          <div className="form-group">
+            <label className="custom-upload label" htmlFor="image">
+              Upload new image
+						</label>
+            <input className="input" name="image" id="image" type="file" />
+          </div>
+
 
           <div className="form-group">
             <label className="label" htmlFor="firstName">
@@ -67,6 +71,8 @@ class FormProfileSettings extends Component {
               id="firstName"
               type="text"
               name="firstName"
+              defaultValue={this.state.user.firstName}
+              placeholder="Enter first name"
             />
           </div>
 
@@ -79,6 +85,8 @@ class FormProfileSettings extends Component {
               id="lastName"
               type="text"
               name="lastName"
+              defaultValue={this.state.user.lastName}
+              placeholder="Enter last name"
             />
           </div>
 
@@ -86,7 +94,7 @@ class FormProfileSettings extends Component {
             <label className="label" htmlFor="email">
               Email
             </label>
-            <input className="input" id="email" type="email" name="email" />
+            <input className="input" id="email" type="email" name="email" defaultValue={this.state.user.email} disabled={true} />
           </div>
 
           <div className="form-group">
@@ -98,18 +106,13 @@ class FormProfileSettings extends Component {
               id="password"
               type="password"
               name="password"
+              placeholder="Change password"
             />
           </div>
 
           <button className="btn-submit">Let's go!</button>
         </form>
 
-        <div className="form-section-bottom">
-          <p>Already have an account? </p>
-          <Link className="link" to="/signin">
-            Log in
-          </Link>
-        </div>
       </section>
     );
   }
