@@ -6,11 +6,13 @@ import apiHandler from '../../api/apiHandler';
 
 class FormEditItem extends Component {
 	state = { item: null };
+
 	componentDidMount() {
+		console.log(this.props);
 		apiHandler
-			.getItems(`_id=${this.props._id}`)
+			.getItems(`_id=${this.props.item}`)
 			.then((APIResult) => console.log(APIResult))
-			.close((APIError) => console.log(APIError));
+			.catch((APIError) => console.log(APIError));
 	}
 
 	render() {
