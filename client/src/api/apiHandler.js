@@ -44,6 +44,13 @@ export default {
 			.catch(errorHandler);
 	},
 
+	profileSettings(userId) {
+		return service
+			.get(`/api/user?user=${userId}`)
+			.then((res) => res.data)
+			.catch(errorHandler);
+	},
+
 	getItems(info) {
 		let r = `/api/items`;
 		if (info) {
