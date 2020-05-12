@@ -44,6 +44,10 @@ class Profile extends Component {
 		this.setState({ edit: id });
 	};
 
+	handleCloseEdit = () => {
+		this.setState({ edit: null });
+	};
+
 	render() {
 		const { authContext } = this.props;
 		const { user } = authContext;
@@ -66,7 +70,7 @@ class Profile extends Component {
 
 					{!user.phoneNumber && <AddPhoneNumber />}
 
-					{this.state.edit && <FormEditItem item={this.state.edit} />}
+					{this.state.edit && <FormEditItem item={this.state.edit} clbk={this.handleCloseEdit} />}
 
 					<UserItems item={this.state.itemsData} deleteCb={this.handleDelete} editCb={this.handleEdit} />
 				</section>

@@ -83,6 +83,13 @@ export default {
 			.catch(errorHandler);
 	},
 
+	editItem(id, data) {
+		return service
+			.patch(`/api/items/${id}`, data)
+			.then((res) => res.data)
+			.catch(errorHandler);
+	},
+
 	deleteItem(itemId) {
 		return service
 			.delete(`/api/items/${itemId}`)

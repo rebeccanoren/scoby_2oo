@@ -16,6 +16,12 @@ router.get('/', (req, res, next) => {
 		.catch((dbError) => res.status(500).json(dbError));
 });
 
+router.get('/:id', (req, res, next) => {
+	Item.findById(req.params.id)
+		.then((dbResult) => res.status(200).json(dbResult))
+		.catch((dbError) => res.status(500).json(dbError));
+});
+
 /* ADD ITEM */
 router.post('/new', upload.single('image'), (req, res, next) => {
 	let data = {
@@ -53,8 +59,8 @@ router.patch('/:id', upload.single('image'), (req, res, next) => {
 		data.image = req.file.secure_url;
 	}
 	Item.findByIdAndUpdate(req.params.id, data, {
-			new: true,
-		})
+		new: true,
+	})
 		.then((dbResult) => {
 			if (dbResult === null) {
 				res.status(404).json({

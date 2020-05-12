@@ -84,6 +84,7 @@ class ItemForm extends Component {
 	};
 
 	render() {
+		console.log(this.state);
 		return (
 			<div className="ItemForm-container">
 				<form className="form" onChange={this.handleChange} onSubmit={this.handleSubmit}>
